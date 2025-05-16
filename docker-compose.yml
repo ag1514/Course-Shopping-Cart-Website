@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  # API Gateway
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - COURSE_SERVICE_URL=http://course-service:3002
+      - CART_SERVICE_URL=http://cart-service:3003
+      - FRONTEND_URL=http://localhost:3004
+    depends_on:
+      - auth-service
+      - course-service
+      - cart-service
+
+  # Authentication Service
+  auth-service:
+    build: ./services/authentication-service
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb+srv://22bcs107:mWocnmqhJQtCAzk2@cluster0.rdjhjyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - FRONTEND_URL=http://localhost:3004
+
+  # Course Service
+  course-service:
+    build: ./services/course-service
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGODB_URI=mongodb+srv://22bcs107:mWocnmqhJQtCAzk2@cluster0.rdjhjyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - FRONTEND_URL=http://localhost:3004
+    depends_on:
+      - auth-service
+
+  # Cart Service
+  cart-service:
+    build: ./services/cart-service
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGODB_URI=mongodb+srv://22bcs107:mWocnmqhJQtCAzk2@cluster0.rdjhjyo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - AUTH_SERVICE_URL=http://auth-service:3001
+      - COURSE_SERVICE_URL=http://course-service:3002
+      - FRONTEND_URL=http://localhost:3004
+    depends_on:
+      - auth-service
+      - course-service
