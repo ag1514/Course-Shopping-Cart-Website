@@ -21,8 +21,7 @@ A Next.js web application built with Tailwind CSS and NextAuth.js for authentica
 ### Installation
 
 1. Clone the repository
-git clone https://github.com/ag1514/Course-Shopping-Cart-Website-.git
-cd CloudProject_ms
+git clone https://github.com/ag1514/Course-Shopping-Cart-Website.git cd CloudProject_ms
 
 2. Install dependencies
 npm install
